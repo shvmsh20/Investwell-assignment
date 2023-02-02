@@ -1,0 +1,96 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: #EEEEEE;
+    
+}
+.parent{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+}
+.signUp-box{
+    flex-basis: 60%;
+}
+.signIn-box{
+    flex-basis: 40%;
+}
+.heading{
+    text-align: center;
+    font-size: 25px;
+    margin: 20px;
+}
+
+.container{
+    border: 2px solid #5B8FB9;
+    margin: 20px;
+    padding: 5px;
+}
+.input{
+    width: 100%;
+    padding: 10px;
+    font-weight: 500;
+}
+.input td{
+    width: 50%;
+    padding: 5px;
+}
+.output{
+    width: 100%;
+    text-align: center;
+}
+.output, .output th, .output td{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.output td{
+    padding: 10px;
+}
+
+input{
+    background-color: #DDDDDD;
+    border: 1px solid black;
+    font-weight:100;
+}
+.input td{
+    margin: 20px;
+}
+.invalid{
+    margin-left: 5px;
+    padding: 2px;
+    color: #F55050;
+}
+.btn{
+    margin: 10px 15px;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #DDDDDD;
+    cursor: pointer;
+}
+.header th{
+    background-color: #DDDDDD;
+}
+
+/* SignIn Form */
+#signInForm{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: auto;
+}
+#signInForm input{
+    width: 50%;
+    padding: 5px;
+    margin: 10px;
+}
+#signIn{
+    margin-top: 20px;
+}

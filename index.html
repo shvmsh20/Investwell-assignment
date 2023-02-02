@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investwell Assignment 2</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="parent">
+        <button class="btn" id="upBtn">Sign Up</button>
+        <button class="btn" id="inBtn">Sign In</button>
+    </div>
+    <div class="parent">
+
+        <div class="container signUp-box">
+            <div>
+                <h1 class="heading">Sign Up</h1>
+                <form>
+                    <table class="input">
+                        <tr>
+                            <td>First Name</td>
+                            <td><input type="text" id="fname"><span class = "invalid" id="invalid-fname"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Last Name</td>
+                            <td><input type="text" id="lname"><span class = "invalid" id="invalid-lname"></span></td>
+                        </tr>
+                        <tr>
+                            <td>UserName</td>
+                            <td><input type="text" id="username"><span class = "invalid" id="invalid-username"></span></td>
+                        </tr>
+                        <tr>
+                            <tr>
+                                <td>Email</td>
+                                <td><input type="email" id="email"><span class = "invalid" id="invalid-email"></span></td>
+                            </tr>
+                            <td>Password</td>
+                            <td><input type="password" id="password"><span class = "invalid" id="invalid-password"></span></td>
+                        </tr>
+                        
+                    </table>
+                    <button type="submit" class = "btn" id="submitBtn">Sign Up</button>
+                    <button type="reset" class="btn" id="resetBtn">Reset</button>
+                </form>
+            </div>
+
+            <div class="container output-container">
+                <table class="output"></table>
+            </div>
+        </div>
+
+        <!-- signIn  -->
+        <div class="container signIn-box">
+            <h1 class="heading">Sign In</h1>
+            <form id = "signInForm">
+                <input type="text" id = "signInEmail" placeholder="Email or Username">
+                <input type="password" id = "signInPassword" placeholder="Password">
+                <button id = "signIn" class="btn">Sign-In</button>
+            </form>
+        </div>
+    </div>  
+    <script src="script.js"></script>
+</body>
+</html>
