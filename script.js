@@ -93,7 +93,7 @@ function handleSubmit(event){
     let str = header;
     const output = document.getElementsByClassName("output")[0];
     outputContainer.style.display = "block";
-    details.forEach((user, index)=>{
+    details.forEach((user)=>{
             str+= `<tr >
             <td>${user.userId}</td>
             <td>${user.fname}</td>
@@ -106,7 +106,8 @@ function handleSubmit(event){
 hashMapEmail[email] = password;
 hashMapUsername[username] = password;
 output.innerHTML = str;
-//handleReset();
+handleReset();
+console.log(hashMapEmail);
 }
 
 
@@ -126,7 +127,7 @@ function handleSignIn(e){
     e.preventDefault();
     const EmailOrUsername = document.getElementById("signInEmail").value;
     const signInPassword = document.getElementById("signInPassword").value;
-    authenticate(signInEmail, signInPassword);
+    authenticate(EmailOrUsername, signInPassword);
 }
 function authenticate(EmailOrUsername, signInPassword){
     if(hashMapEmail[EmailOrUsername]===signInPassword || hashMapUsername[EmailOrUsername]===signInPassword){
