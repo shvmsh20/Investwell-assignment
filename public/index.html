@@ -12,6 +12,9 @@
     <div class="parent">
         <button class="btn" id="upBtn">Sign Up</button>
         <button class="btn" id="inBtn">Sign In</button>
+        <button class="btn" id="updateUserBtn">Update User</button>
+        <button class="btn" id="deleteUserBtn">Delete User</button>
+        <button class="btn" id="getDataBtn">Get Data</button>
     </div>
 
     <div class="parent">
@@ -20,46 +23,43 @@
             <!-- sign-in -->
             <div>
                 <h1 class="heading">Sign Up</h1>
-                <form action="user/create" method="post">
+                <form >
                     <table class="input">
                             <tr>
                                 <td>First Name</td>
-                                <td><input type="text" id="fname" name="fName"><span class = "invalid" id="invalid-fname"></span></td>
+                                <td><input type="text" id="signUpFname" name="fName"><span class = "invalid" id="invalid-fname"></span></td>
                             </tr>
 
                             <tr>
                                 <td>Last Name</td>
-                                <td><input type="text" id="lname" name="lName"><span class = "invalid" id="invalid-lname"></span></td>
+                                <td><input type="text" id="signUpLname" name="lName"><span class = "invalid" id="invalid-lname"></span></td>
                             </tr>
                             
                             <tr>
                                 <td>User Name</td>
-                                <td><input type="text" id="username" name="userName"><span class = "invalid" id="invalid-username"></span></td>
+                                <td><input type="text" id="signUpUsenname" name="userName"><span class = "invalid" id="invalid-username"></span></td>
                             </tr>
     
                             <tr>
                                 <td>Email</td>
-                                <td><input type="email" id="email" name="email"><span class = "invalid" id="invalid-email"></span></td>
+                                <td><input type="email" id="signUpEmail" name="email"><span class = "invalid" id="invalid-email"></span></td>
                             </tr>
                 
                             <tr>
                                 <td>Password</td>
-                                <td><input type="password" id="password" name="password"><span class = "invalid" id="invalid-password"></span></td>
+                                <td><input type="password" id="signUpPassword" name="password"><span class = "invalid" id="invalid-password"></span></td>
                             </tr>
                          
                         </table>
 
-                    <button type="submit" class = "btn" id="submitBtn"> Sign Up</button>
+                    <button type="submit" class = "btn" id="signUpBtn"> Sign Up</button>
                     <button type="reset" class="btn" id="resetBtn">Reset</button>
-                    <button class="btn" id="getData">Get Data</button>
 
                 </form>
                     
             </div>
 
-            <div class="container output-container">
-                <table class="output"></table>
-            </div>
+    
         </div>
 
         <!-- signIn  -->
@@ -71,6 +71,66 @@
                 <button type = "submit" id = "signIn" class="btn">Sign In</button>
             </form>
         </div>
+
+        <!-- Delete User -->
+        <div class="container deleteUser-box">
+            <h1 class="heading">Delete User</h1>
+            <form id = "deleteUserForm">
+                <input type="text" id = "deleteUserID" placeholder="UserID">
+                <button type = "submit" id = "deleteUser" class="btn">Delete User</button>
+            </form>
+        </div>
+
+        <!-- Update User -->
+        <div class="container updateUser-box">
+            <h1 class="heading">Update User</h1>
+            <form >
+                <table class="input">
+                        <tr>
+                            <td>UserID</td>
+                            <td><input type="number" id="updateUserID" name="fName"><span class = "invalid" id="invalid-userID"></span></td>
+                        </tr>
+
+                        <tr>
+                            <td>First Name</td>
+                            <td><input type="text" id="updateFname" name="fName"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Last Name</td>
+                            <td><input type="text" id="updateLname" name="lName"></td>
+                        </tr>
+                        
+                        <tr>
+                            <td>User Name</td>
+                            <td><input type="text" id="updateUsenname" name="userName"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Email</td>
+                            <td><input type="email" id="updateEmail" name="email"></td>
+                        </tr>
+            
+                        <tr>
+                            <td>Password</td>
+                            <td><input type="password" id="updatePassword" name="password"></span></td>
+                        </tr>
+                     
+                    </table>
+
+                <button type="submit" class = "btn" id="updateBtn">Update</button>
+                <button type="reset" class="btn" id="resetBtn-updateUser">Reset</button>
+
+            </form>
+                
+        </div>
+    
+        <!-- output uses -->
+        <div class="container output-container">
+            <table class="output"></table>
+        </div>
+
+       
     </div>  
     
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>

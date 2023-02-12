@@ -1,21 +1,49 @@
 document.getElementsByClassName("signIn-box")[0].style.display = "none";
+document.getElementsByClassName("deleteUser-box")[0].style.display = "none";
+document.getElementsByClassName("updateUser-box")[0].style.display = "none";
+document.getElementsByClassName("output-container")[0].style.display = "none";
 
 //Choose signUp and signIn
 document.getElementById("upBtn").addEventListener('click', ()=>{
     document.getElementsByClassName("signUp-box")[0].style.display = "block";
     document.getElementsByClassName("signIn-box")[0].style.display = "none";
+    document.getElementsByClassName("deleteUser-box")[0].style.display = "none";
+    document.getElementsByClassName("updateUser-box")[0].style.display = "none";
+    document.getElementsByClassName("output-container")[0].style.display = "none";
 })
 document.getElementById("inBtn").addEventListener('click', ()=>{
     document.getElementsByClassName("signIn-box")[0].style.display = "block";
     document.getElementsByClassName("signUp-box")[0].style.display = "none"; 
+    document.getElementsByClassName("deleteUser-box")[0].style.display = "none";
+    document.getElementsByClassName("updateUser-box")[0].style.display = "none";
+    document.getElementsByClassName("output-container")[0].style.display = "none";
+})
+
+document.getElementById("deleteUserBtn").addEventListener('click', ()=>{
+    document.getElementsByClassName("deleteUser-box")[0].style.display = "block";
+    document.getElementsByClassName("signIn-box")[0].style.display = "none";
+    document.getElementsByClassName("signUp-box")[0].style.display = "none"; 
+    document.getElementsByClassName("updateUser-box")[0].style.display = "none";
+    document.getElementsByClassName("output-container")[0].style.display = "none";
+})
+
+document.getElementById("updateUserBtn").addEventListener('click', ()=>{
+    document.getElementsByClassName("updateUser-box")[0].style.display = "block";
+    document.getElementsByClassName("signIn-box")[0].style.display = "none";
+    document.getElementsByClassName("signUp-box")[0].style.display = "none"; 
+    document.getElementsByClassName("deleteUser-box")[0].style.display = "none";
+    document.getElementsByClassName("output-container")[0].style.display = "none";
 })
 
 
-const submit = document.getElementById("submitBtn").addEventListener("click", handleSubmit);
+const submit = document.getElementById("signUpBtn").addEventListener("click", handleSubmit);
 const reset = document.getElementById("resetBtn").addEventListener("click", handleReset);
-const getData = document.getElementById("getData").addEventListener("click", showData);
+document.getElementById("signIn").addEventListener('click', handleSignIn);
+const getData = document.getElementById("getDataBtn").addEventListener("click", showData);
+const deleteUser = document.getElementById("deleteUser").addEventListener("click", delUser);
+document.getElementById("updateBtn").addEventListener("click", updateUser);
 
-const details = [];
+
 let hashMapEmail = {};
 let hashMapUsername = {};
 
@@ -28,23 +56,15 @@ function User(fname, lname, username, email, password){
     this.email = email;
     this.username = username;
 }
-let header = `<tr class="header">
-<th>UserId</th>
-<th>First Name</th>
-<th>Last Name</th>
-<th>Username</th>
-<th>Email</th>
-<th>Password</th>
-</tr>`;
-const outputContainer = document.getElementsByClassName("output-container")[0];
-outputContainer.style.display = "none";
+ 
 function handleSubmit(event){
     event.preventDefault();
-    const fname = document.getElementById("fname").value;
-    const lname = document.getElementById("lname").value;
-    const password = document.getElementById("password").value;
-    const email = document.getElementById("email").value;
-    const username = document.getElementById("username").value;
+    const fname = document.getElementById("signUpFname").value;
+    const lname = document.getElementById("signUpLname").value;
+    const password = document.getElementById("signUpPassword").value;
+    const email = document.getElementById("signUpEmail").value;
+    const username = document.getElementById("signUpUsenname").value;
+    
     if(fname.length===0){
         const field = document.getElementById("invalid-fname");
         field.innerHTML = "Invaid Data";
@@ -89,69 +109,26 @@ function handleSubmit(event){
     }
     
     userId++;
+
+    //user Object
     const user = new User(fname, lname, username, email, password);
-    details.push(user);
 
-    //Push data in table
-    //pushInTable(user);
+    hashMapEmail[email] = password;
+    hashMapUsername[username] = password;
 
-    let str = header;
-    const output = document.getElementsByClassName("output")[0];
-    outputContainer.style.display = "block";
-    details.forEach((user)=>{
-            str+= `<tr >
-            <td>${user.userId}</td>
-            <td>${user.fname}</td>
-            <td>${user.lname}</td>
-            <td>${user.username}</td>
-            <td>${user.email}</td>
-            <td>${user.password}</td>
-            </tr>`;
-})
-hashMapEmail[email] = password;
-hashMapUsername[username] = password;
-output.innerHTML = str;
-handleReset();
-data_insert(user);
+    handleReset();
+
+    //Insert in DB
+    data_insert(user);
 }
-
-function showData(e){
-    e.preventDefault();
-    $.ajax({
-        url: "http://localhost:5000/users",
-        type: "GET",
-        success: function(result){
-            console.log(result);
-            
-        },
-        error: function(error){
-            console.log(error);
-        }
-    })
-}
-
-function data_insert(user){
-      console.log(user)
-      $.ajax({
-        url: "http://localhost:5000/user/create",
-        type:"POST",
-        data : user,
-        success: function(result){
-          console.log(result);
-        },
-        error: function(error){
-          console.log(error);
-        }
-      })
-  }
 
 
 function handleReset(event){
-    document.getElementById("fname").value = "";
-    document.getElementById("lname").value = "";
-    document.getElementById("password").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("username").value = "";
+    document.getElementById("signUpFname").value = "";
+    document.getElementById("signUpLname").value = "";
+    document.getElementById("signUpPassword").value = "";
+    document.getElementById("signUpEmail").value = "";
+    document.getElementById("signUpUsenname").value = "";
 
 }
 
@@ -163,6 +140,7 @@ function handleSignIn(e){
     const signInPassword = document.getElementById("signInPassword").value;
     authenticate(EmailOrUsername, signInPassword);
 }
+
 function authenticate(EmailOrUsername, signInPassword){
     if(hashMapEmail[EmailOrUsername]===signInPassword || hashMapUsername[EmailOrUsername]===signInPassword){
         alert("verified");
@@ -171,61 +149,140 @@ function authenticate(EmailOrUsername, signInPassword){
         alert("Not verified");
     }
 }
-document.getElementById("signIn").addEventListener('click', handleSignIn);
 
+//Update User
+function updateUser(e){
+    e.preventDefault();
+    const updateUserID = document.getElementById("updateUserID").value;
+    const updateFname = document.getElementById("updateFname").value;
+    const updateLname = document.getElementById("updateLname").value;
+    const updatePassword = document.getElementById("updatePassword").value;
+    const updatEmail = document.getElementById("updateEmail").value;
+    const updateUsername = document.getElementById("updateUsenname").value;
+    const updateUserObj = {
+        updateUserID : parseInt(updateUserID),
+        updateFname,
+        updateLname,
+        updateUsername,
+        updatePassword,
+        updatEmail
+    }
+    
 
-//server.js
-// const express = require("express");
-// const app = express();
+    //ajax call
+    update_user(updateUserObj)
 
-// const mysql = require("mysql2");
+    //Reset Values
+    document.getElementById("updateUserID").value = "";
+    document.getElementById("updateFname").value = "";
+    document.getElementById("updateLname").value = "";
+    document.getElementById("updatePassword").value = "";
+    document.getElementById("updateEmail").value = "";
+    document.getElementById("updateUsenname").value = "";
+}
 
-
-
-// //Connecting mysql database
-// const config = {
-//     host: "localhost",
-//     user: "root",
-//     database: "assignment",
-//     password: "Agra@123"
-// }
-// const connection = mysql.createConnection(config);
-
-// //Show all data in table
-// // function showData(){
-// //     connection.query(
-// //         "SELECT * from userDetails",
-// //         (err, results, fields)=>{
-// //             if(err){
-// //                 throw err;
-// //             }
-// //             console.log(results);
-// //         }
-// //     )
-// // }
-
-
-// //Push data in table function
-// function pushInTable(data){
-//     const sqlQuery = `INSERT INTO userDetails 
-//     VALUES("${data.fname}", "${data.lname}", "${data.username}",
-//     "${data.email}", "${data.password}", "${data.userId}")`;
-//     console.log(sqlQuery);
-//     connection.query(sqlQuery,
-//         (err, results)=>{
-//             if(err){
-//                 throw err;
-//             }
-//             console.log(results);
-//             //showData();
-//         }
-//     )
-// }
+//Get all rows
 
 
 
+//Ajax Calls
 
+//Get data 
+function showData(e){
+    e.preventDefault();
 
+    document.getElementsByClassName("output-container")[0].style.display = "block";
+    document.getElementsByClassName("deleteUser-box")[0].style.display = "none";
+    document.getElementsByClassName("signIn-box")[0].style.display = "none";
+    document.getElementsByClassName("signUp-box")[0].style.display = "none"; 
+    document.getElementsByClassName("updateUser-box")[0].style.display = "none";
 
+    let rows = [];
 
+    $.ajax({
+        url: "http://localhost:5000/users",
+        type: "GET",
+        success: function(result){
+            rows = result;
+            //console.log(rows);
+            let str = rows.length>0 ?
+            `<tr class="header">
+            <th>UserId</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            </tr>`: "No Data In Database";
+            rows.forEach((user)=>{
+                str+= `<tr >
+                <td>${user.userId}</td>
+                <td>${user.fName}</td>
+                <td>${user.lName}</td>
+                <td>${user.userName}</td>
+                <td>${user.email}</td>
+                </tr>`;
+            })
+            const output = document.getElementsByClassName("output")[0];
+            output.innerHTML = str;
+        },
+        error: function(error){
+            console.log(error);
+        }
+    })
+    //console.log(rows);
 
+}
+
+//Insert Data
+function data_insert(user){
+    $.ajax({
+      url: "http://localhost:5000/user/create",
+      type:"POST",
+      data : user,
+      success: function(result){
+        console.log(result);
+      },
+      error: function(error){
+        console.log(error);
+      }
+    })
+}
+
+//DeleteUser
+function delUser(e){
+    e.preventDefault();
+    const userID = parseInt(document.getElementById("deleteUserID").value);
+    const obj = {
+        userID
+    }
+    $.ajax({
+        url: "http://localhost:5000/user/delete",
+        type: "POST",
+        data: obj,
+        success: function(result){
+            console.log(result);
+            
+        },
+        error: function(error){
+            console.log(error);
+        }
+    })
+    document.getElementById("deleteUserID").value = "";
+    
+}
+
+//Update User
+function update_user(updateUserObj){
+    $.ajax({
+        url: "http://localhost:5000/user/update",
+        type: "POST",
+        data: updateUserObj,
+        success: function(result){
+            console.log(result);
+            
+        },
+        error: function(error){
+            console.log(error);
+        }
+    })
+}
