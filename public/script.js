@@ -64,8 +64,8 @@ function handleSubmit(event){
     const password = document.getElementById("signUpPassword").value;
     const email = document.getElementById("signUpEmail").value;
     const username = document.getElementById("signUpUsenname").value;
-    
-    if(fname.length===0){
+    var letters = /^[A-Za-z]+$/;
+    if(fname.length===0 || fname.match(letters)===null){
         const field = document.getElementById("invalid-fname");
         field.innerHTML = "Invaid Data";
         setTimeout(()=>{
@@ -73,7 +73,7 @@ function handleSubmit(event){
         },2000);
         return false;
     }
-    if(lname.length===0){
+    if(lname.length===0 || lname.match(letters)===null){
         const field = document.getElementById("invalid-lname");
         field.innerHTML = "Invaid Data";
         setTimeout(()=>{

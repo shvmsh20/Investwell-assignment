@@ -10,17 +10,25 @@ const repo = require("../repository/userDb.js");
 // }
 
 //using promises
-const getAllData =  ()=>{
+// const getAllData =  ()=>{
+//     return new Promise((resolve)=>{
+//         const sqlQuery = "Select * from userDetails";
+//         const result = repo.getAllData(sqlQuery);
+//         result.then((data)=>{
+//             resolve(data);
+//         })
+//     })
+// }
+
+//using async await
+const getAllData = async ()=>{
+    const sqlQuery = "Select * from userDetails";
+    const result = await repo.getAllData(sqlQuery);
     return new Promise((resolve)=>{
-        const sqlQuery = "Select * from userDetails";
-        const result = repo.getAllData(sqlQuery);
-        result.then((data)=>{
-            resolve(data);
-        })
+        resolve(result);
     })
-    
-    
 }
+
 
 const insertData = (newUser)=>{
     const sqlQuery = `INSERT INTO userDetails(fName, lName, userName, email, password)

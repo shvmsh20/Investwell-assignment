@@ -6,7 +6,7 @@ const showForm = (req, res)=>{
     res.sendFile(path.join(__dirname, "..", "public", "index.html"));
 }
 
-const fetchAllRows = (req, res)=>{
+const fetchAllRows = async (req, res)=>{
     //validations
     
     //Using callbacks
@@ -17,12 +17,17 @@ const fetchAllRows = (req, res)=>{
     // })
 
 
-    
-    const temp = services.getAllData();
-    
-    temp.then((data)=>{
-        res.send(data);
-    });
+    //Using promises
+    // const temp = services.getAllData();
+    // temp.then((data)=>{
+    //     res.send(data);
+    // });
+
+
+    //Using async await
+    const temp = await services.getAllData();
+    //console.log(temp);
+    res.send(temp);
 }
 
 const insertData = (req,res)=>{

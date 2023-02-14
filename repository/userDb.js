@@ -15,19 +15,29 @@ const connection = require("../connection/db.js");
 
 
 //using promises
-const getAllData =  (sqlQuery)=>{
+// const getAllData =  (sqlQuery)=>{
+//     return new Promise((resolve)=>{
+//         connection.query(
+//             sqlQuery,
+//             (err, res)=>{
+//                 if(err){
+//                     return console.log(err);
+//                 }
+//                 resolve(res);
+//             } 
+//         )  
+//     })
+
+//using async await
+const getAllData = async (sqlQuery)=>{
     return new Promise((resolve)=>{
-        connection.query(
-            sqlQuery,
-            (err, res)=>{
-                if(err){
-                    return console.log(err);
-                }
-                resolve(res);
-            } 
-        )  
+        connection.query(sqlQuery, (err, res)=>{
+            if(err){
+                return console.log(err);
+            }
+            resolve(res);
+        })
     })
-             
     
 }
 
