@@ -1,12 +1,24 @@
 const repo = require("../repository/userDb.js");
 
-const getAllData = (cb)=>{
-    const sqlQuery = "Select * from userDetails";
-    repo.getAllData(sqlQuery, function(err, res){
-        //console.log(res);
-        cb(null, res);
-        return res;
-    });
+//using callbacks
+// const getAllData = (cb)=>{
+//     const sqlQuery = "Select * from userDetails";
+//     repo.getAllData(sqlQuery, function(err, res){
+//         return cb(null, res);
+//     });
+    
+// }
+
+//using promises
+const getAllData =  ()=>{
+    return new Promise((resolve)=>{
+        const sqlQuery = "Select * from userDetails";
+        const result = repo.getAllData(sqlQuery);
+        result.then((data)=>{
+            resolve(data);
+        })
+    })
+    
     
 }
 

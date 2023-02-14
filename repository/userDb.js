@@ -1,18 +1,36 @@
 const connection = require("../connection/db.js");
 
-const getAllData =  (sqlQuery, cb)=>{
-    connection.query(
-        sqlQuery,
-        (err, res)=>{
-            if(err){
-                return console.log(err);
-            }
-            //console.log(res);
-            cb(null, res);
-            //return res;
-        }
-    )   
+//using callbacks
+// const getAllData =  (sqlQuery, cb)=>{
+//     connection.query(
+//         sqlQuery,
+//         (err, res)=>{
+//             if(err){
+//                 return console.log(err);
+//             }
+//             return cb(null, res);
+//         }
+//     )   
+// }
+
+
+//using promises
+const getAllData =  (sqlQuery)=>{
+    return new Promise((resolve)=>{
+        connection.query(
+            sqlQuery,
+            (err, res)=>{
+                if(err){
+                    return console.log(err);
+                }
+                resolve(res);
+            } 
+        )  
+    })
+             
+    
 }
+
 
 const insertData = (sqlQuery)=>{
     return connection.query(

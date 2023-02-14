@@ -9,10 +9,20 @@ const showForm = (req, res)=>{
 const fetchAllRows = (req, res)=>{
     //validations
     
-    services.getAllData(function(err, result){
-        console.log(result);
-        res.send(result);
-    })
+    //Using callbacks
+    // services.getAllData(function(err, result){
+    //     //console.log(result);
+    //     console.log(req);
+    //     return res.send(result);
+    // })
+
+
+    
+    const temp = services.getAllData();
+    
+    temp.then((data)=>{
+        res.send(data);
+    });
 }
 
 const insertData = (req,res)=>{
