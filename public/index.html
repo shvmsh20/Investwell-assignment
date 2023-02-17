@@ -9,22 +9,25 @@
 </head>
 <body>
     
-    <div class="parent">
+    
+    <div class="parent nav">
         <button class="btn" id="upBtn">Sign Up</button>
         <button class="btn" id="inBtn">Sign In</button>
         <button class="btn" id="updateUserBtn">Update User</button>
         <button class="btn" id="deleteUserBtn">Delete User</button>
         <button class="btn" id="getDataBtn">Get Data</button>
     </div>
+    
 
     <div class="parent">
 
+        <!-- signUp -->
         <div class="container signUp-box">
-            <!-- sign-in -->
             <div>
                 <h1 class="heading">Sign Up</h1>
                 <form >
                     <table class="input">
+    
                             <tr>
                                 <td>First Name</td>
                                 <td><input type="text" id="signUpFname" name="fName"><span class = "invalid" id="invalid-fname"></span></td>
@@ -62,15 +65,7 @@
     
         </div>
 
-        <!-- signIn  -->
-        <div class="container signIn-box">
-            <h1 class="heading">Sign In</h1>
-            <form id = "signInForm">
-                <input type="text" id = "signInEmail" placeholder="Email or Username">
-                <input type="password" id = "signInPassword" placeholder="Password">
-                <button type = "submit" id = "signIn" class="btn">Sign In</button>
-            </form>
-        </div>
+        <div id="signupMsg"></div>
 
         <!-- Delete User -->
         <div class="container deleteUser-box">
@@ -80,6 +75,7 @@
                 <button type = "submit" id = "deleteUser" class="btn">Delete User</button>
             </form>
         </div>
+
 
         <!-- Update User -->
         <div class="container updateUser-box">
@@ -125,9 +121,62 @@
                 
         </div>
     
-        <!-- output uses -->
+        <!-- output users -->
         <div class="container output-container">
             <table class="output"></table>
+        </div>
+        
+        <!-- signIn  -->
+        <div class="container signIn-box">
+            <h1 class="heading">Sign In</h1>
+            <form id = "signInForm">
+                <input type="text" id = "signInEmail" placeholder="Email">
+                <input type="password" id = "signInPassword" placeholder="Password">
+                <button type = "submit" id = "signIn" class="btn">Sign In</button>
+            </form>
+        </div>
+
+        <div id="signInErr"></div>
+
+        <!-- SignIn Table  -->
+        <div class="container signIn-Table">
+            <h1 id="userDetails">User Details</h1>
+                <table class="input">
+                    <tr>
+                        <td>UserID</td>
+                        <td><span id="user-userID">UserID</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>First Name</td>
+                        <td><span id="user-fName"></span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Last Name</td>
+                        <td><span id="user-lName"></span></td>
+                    </tr>
+                    
+                    <tr>
+                        <td>User Name</td>
+                        <td><span id="user-userName"></span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Email</td>
+                        <td><span id="user-email"></span></td>
+                    </tr>
+        
+                    <tr>
+                        <td>Account Created At</td>
+                        <td><span id="userCreatedAt"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Account Updated At</td>
+                        <td><span id="userUpdatedAt"></span></td>
+                    </tr>
+                        
+                </table>
         </div>
 
        

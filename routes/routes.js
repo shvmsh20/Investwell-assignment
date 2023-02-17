@@ -10,6 +10,9 @@ router.get("/", controller.showForm)
 //fetch all
 router.get("/users", controller.fetchAllRows);
 
+//SignIn
+router.post("/user/signIn", controller.signIn);
+
 //Insert
 router.post("/user/create", controller.insertData);
 

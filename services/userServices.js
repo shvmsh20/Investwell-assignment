@@ -22,19 +22,40 @@ const repo = require("../repository/userDb.js");
 
 //using async await
 const getAllData = async ()=>{
-    const sqlQuery = "Select * from userDetails";
+    const sqlQuery = "Select userId, fName, lName, userName, email from userDetails";
     const result = await repo.getAllData(sqlQuery);
     return new Promise((resolve)=>{
         resolve(result);
     })
 }
 
+//SignIn
+const signIn = async (cred)=>{
+    const sqlQuery = `Select * from userDetails where email = "${cred.email}"`;
+    const result = await repo.signIn(sqlQuery);
+    return new Promise((resolve)=>{
+        resolve(result);
+    })
+}
 
-const insertData = (newUser)=>{
+
+const insertData = async (newUser)=>{
+    let success = null
+    let fail = null;
     const sqlQuery = `INSERT INTO userDetails(fName, lName, userName, email, password)
-    VALUES("${newUser.fname}", "${newUser.lname}", "${newUser.username}", "${newUser.email}",
-    "${newUser.password}")`;
-    return repo.insertData(sqlQuery);
+            VALUES("${newUser.fname}", "${newUser.lname}", "${newUser.username}", "${newUser.email}",
+            "${newUser.password}")`;
+        let result;    
+        try{
+            result = await repo.insertData(sqlQuery);
+        }
+        catch(err){
+            result = err;
+        }
+        return new Promise((resolve, reject)=>{
+            resolve(result);
+        })
+    
 }
 
 const deleteData = (id)=>{
@@ -52,6 +73,7 @@ const updateData = (updateUser)=>{
 
 module.exports = {
     getAllData, 
+    signIn,
     insertData,
     deleteData, 
     updateData

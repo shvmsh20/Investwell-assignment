@@ -3,10 +3,16 @@
     padding: 0;
     box-sizing: border-box;
     font-size: 18px;
-    background-color: #DDDDDD;
+    background-color: #3C4048;
     font-weight: 500;
+    color: #fff;
     
 }
+
+.nav{
+    background-color: #181D31;
+}
+
 .parent{
     width: 100%; 
 }
@@ -23,6 +29,7 @@
     margin: 50px auto;
     padding: 5px;
     width: 50%;
+    box-shadow: 5px 10px 10px #5B8FB9;
 }
 .input{
     width: 100%;
@@ -38,7 +45,7 @@
     text-align: center;
 }
 .output, .output th, .output td{
-    border: 1px solid black;
+    border: 1px solid #fff;
     border-collapse: collapse;
 }
 .output td{
@@ -50,6 +57,7 @@ input{
     border: 2px solid black;
     font-weight:100;
     padding: 2px;
+    color: black;
     
 }
 .input td{
@@ -63,13 +71,17 @@ input{
 .btn{
     margin: 10px 15px;
     padding: 5px;
-    border: 2px solid black;
+    border: 2px solid #5B8FB9;
     border-radius: 5px;
     background-color: #DDDDDD;
     cursor: pointer;
+    color: black;
+}
+.btn:hover{
+    color: #404258;
 }
 .header th{
-    background-color: #DDDDDD;
+    background-color: black;
 }
 
 /* SignIn Form */
@@ -92,5 +104,30 @@ input{
 
 #signIn, #deleteUser{
     margin-top: 20px;
+}
+
+#signInErr{
+    width: 40%;
+    margin: auto;
+    margin-top: 5px;
+    color: #F55050;
+    text-align: center;
+    padding: 2px;
+}
+
+#signupMsg{
+    width: 40%;
+    margin: auto;
+    margin-top: 5px;
+    color:black;
+    text-align: center;
+    padding: 2px;
+}
+
+#userDetails{
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 5px;
 }
 

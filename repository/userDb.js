@@ -30,10 +30,10 @@ const connection = require("../connection/db.js");
 
 //using async await
 const getAllData = async (sqlQuery)=>{
-    return new Promise((resolve)=>{
+    return new Promise((resolve, reject)=>{
         connection.query(sqlQuery, (err, res)=>{
             if(err){
-                return console.log(err);
+                reject(err);
             }
             resolve(res);
         })
@@ -41,17 +41,32 @@ const getAllData = async (sqlQuery)=>{
     
 }
 
-
-const insertData = (sqlQuery)=>{
-    return connection.query(
-        sqlQuery,
-        (err, results)=>{
+const signIn = async (sqlQuery)=>{
+    return new Promise((resolve, reject)=>{
+        connection.query(sqlQuery, (err, res)=>{
             if(err){
-                return console.log(err);
+                return reject(err);
             }
-            console.log("New row added...");
-        }
-    )
+            //console.log(res);
+            resolve(res);
+        })
+    })
+}
+
+const insertData = async (sqlQuery)=>{
+    return new Promise((resolve, reject)=>{
+        connection.query(
+            sqlQuery,
+            (err, results)=>{
+                if(err){
+                    //console.log(err.message);
+                    return reject(err.message);
+                }
+                //console.log("New row added...");
+                resolve("Signed up successfully");
+            }
+        )
+    }) 
 }
 
 const deleteData = (sqlQuery)=>{
@@ -81,6 +96,7 @@ const updateData = (sqlQuery)=>{
 }
 module.exports = {
     getAllData,
+    signIn,
     insertData,
     deleteData, 
     updateData

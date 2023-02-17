@@ -29,10 +29,36 @@ const fetchAllRows = async (req, res)=>{
     //console.log(temp);
     res.send(temp);
 }
+ 
+const signIn = async (req, res)=>{
+    const cred = req.body;
+    const temp = await services.signIn(cred);
+    if(temp.length==0){
+        res.send("No user found with this email id");
+    }else if(temp[0].password===cred.password){
+        res.send({
+            userId: (temp[0].userId),
+            fName: temp[0].fName,
+            lName: temp[0].lName,
+            userName: temp[0].userName,
+            email: temp[0].email,
+            createdAt: temp[0].createdAt,
+            updatedAt: temp[0].createdAt
 
-const insertData = (req,res)=>{
+        });
+    }else{
+        res.send("Incorrect password")
+    }
+}
+
+const insertData = async (req,res)=>{
     const newUser = req.body;
-    return services.insertData(newUser);
+    
+    
+    const result = await services.insertData(newUser);
+        
+    
+    res.send(result);
 }
 
 const deleteData = (req, res)=>{
@@ -48,6 +74,7 @@ const updateData = (req, res)=>{
 
 module.exports = {
     showForm,
+    signIn,
     fetchAllRows,
     insertData,
     deleteData,

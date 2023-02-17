@@ -2,50 +2,57 @@ document.getElementsByClassName("signIn-box")[0].style.display = "none";
 document.getElementsByClassName("deleteUser-box")[0].style.display = "none";
 document.getElementsByClassName("updateUser-box")[0].style.display = "none";
 document.getElementsByClassName("output-container")[0].style.display = "none";
+document.getElementsByClassName("signIn-Table")[0].style.display = "none";
 
-//Choose signUp and signIn
+//Choose signUp
 document.getElementById("upBtn").addEventListener('click', ()=>{
     document.getElementsByClassName("signUp-box")[0].style.display = "block";
     document.getElementsByClassName("signIn-box")[0].style.display = "none";
     document.getElementsByClassName("deleteUser-box")[0].style.display = "none";
     document.getElementsByClassName("updateUser-box")[0].style.display = "none";
     document.getElementsByClassName("output-container")[0].style.display = "none";
+    document.getElementsByClassName("signIn-Table")[0].style.display = "none";
 })
+
+//Choose signIn
 document.getElementById("inBtn").addEventListener('click', ()=>{
     document.getElementsByClassName("signIn-box")[0].style.display = "block";
     document.getElementsByClassName("signUp-box")[0].style.display = "none"; 
     document.getElementsByClassName("deleteUser-box")[0].style.display = "none";
     document.getElementsByClassName("updateUser-box")[0].style.display = "none";
     document.getElementsByClassName("output-container")[0].style.display = "none";
+    document.getElementsByClassName("signIn-Table")[0].style.display = "none";
 })
 
+///Choose deleteUser Btn
 document.getElementById("deleteUserBtn").addEventListener('click', ()=>{
     document.getElementsByClassName("deleteUser-box")[0].style.display = "block";
     document.getElementsByClassName("signIn-box")[0].style.display = "none";
     document.getElementsByClassName("signUp-box")[0].style.display = "none"; 
     document.getElementsByClassName("updateUser-box")[0].style.display = "none";
     document.getElementsByClassName("output-container")[0].style.display = "none";
+    document.getElementsByClassName("signIn-Table")[0].style.display = "none";
 })
 
+//Choose updateUser Btn
 document.getElementById("updateUserBtn").addEventListener('click', ()=>{
     document.getElementsByClassName("updateUser-box")[0].style.display = "block";
     document.getElementsByClassName("signIn-box")[0].style.display = "none";
     document.getElementsByClassName("signUp-box")[0].style.display = "none"; 
     document.getElementsByClassName("deleteUser-box")[0].style.display = "none";
     document.getElementsByClassName("output-container")[0].style.display = "none";
+    document.getElementsByClassName("signIn-Table")[0].style.display = "none";
 })
 
-
-const submit = document.getElementById("signUpBtn").addEventListener("click", handleSubmit);
-const reset = document.getElementById("resetBtn").addEventListener("click", handleReset);
+//Adding event listeners
+document.getElementById("signUpBtn").addEventListener("click", handleSubmit);
+document.getElementById("resetBtn").addEventListener("click", handleReset);
 document.getElementById("signIn").addEventListener('click', handleSignIn);
-const getData = document.getElementById("getDataBtn").addEventListener("click", showData);
-const deleteUser = document.getElementById("deleteUser").addEventListener("click", delUser);
+document.getElementById("getDataBtn").addEventListener("click", showData);
+document.getElementById("deleteUser").addEventListener("click", delUser);
 document.getElementById("updateBtn").addEventListener("click", updateUser);
 
 
-let hashMapEmail = {};
-let hashMapUsername = {};
 
 let userId = 0;
 function User(fname, lname, username, email, password){
@@ -65,7 +72,15 @@ function handleSubmit(event){
     const email = document.getElementById("signUpEmail").value;
     const username = document.getElementById("signUpUsenname").value;
     var letters = /^[A-Za-z]+$/;
-    if(fname.length===0 || fname.match(letters)===null){
+    // if(fname.length===0 || fname.match(letters)===null){
+    //     const field = document.getElementById("invalid-fname");
+    //     field.innerHTML = "Invaid Data";
+    //     setTimeout(()=>{
+    //         field.innerHTML = "";
+    //     },2000);
+    //     return false;
+    // }
+    if(fname.length===0){
         const field = document.getElementById("invalid-fname");
         field.innerHTML = "Invaid Data";
         setTimeout(()=>{
@@ -73,7 +88,7 @@ function handleSubmit(event){
         },2000);
         return false;
     }
-    if(lname.length===0 || lname.match(letters)===null){
+    if(lname.length===0){
         const field = document.getElementById("invalid-lname");
         field.innerHTML = "Invaid Data";
         setTimeout(()=>{
@@ -90,7 +105,7 @@ function handleSubmit(event){
         return false;
     }
     var validRegexUsername = "^[A-Za-z][A-Za-z0-9_]{7,29}$";
-    if(username.match(validRegexUsername)===null || hashMapUsername[username]!=undefined){
+    if(username.match(validRegexUsername)===null){
         const field = document.getElementById("invalid-username");
         field.innerHTML = "Invaid Data";
         setTimeout(()=>{
@@ -99,7 +114,7 @@ function handleSubmit(event){
         return false;
     }
     var validRegexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if(email.match(validRegexEmail)===null || hashMapEmail[email]!=undefined){
+    if(email.match(validRegexEmail)===null){
         const field = document.getElementById("invalid-email");
         field.innerHTML = "Invaid Data";
         setTimeout(()=>{
@@ -113,16 +128,13 @@ function handleSubmit(event){
     //user Object
     const user = new User(fname, lname, username, email, password);
 
-    hashMapEmail[email] = password;
-    hashMapUsername[username] = password;
-
     handleReset();
 
     //Insert in DB
     data_insert(user);
 }
 
-
+//handle reset
 function handleReset(event){
     document.getElementById("signUpFname").value = "";
     document.getElementById("signUpLname").value = "";
@@ -134,20 +146,57 @@ function handleReset(event){
 
 
 ///Sign - In
+
+function displayDetails(userDetails){
+    const userDetailsTable = document.getElementsByClassName("signIn-Table")[0];
+    const signInErr = document.getElementById("signInErr");
+    //Invalid user
+    if(typeof (userDetails) === "string"){
+        signInErr.innerHTML = userDetails;
+        signInErr.style.display = "block";
+        setTimeout(()=>{
+            signInErr.style.display = "none";
+        } ,3000)
+    }else{
+        //Valid user
+        console.log(userDetails);
+        document.getElementById("user-userID").innerHTML = userDetails.userId;
+
+        document.getElementById("userCreatedAt").innerHTML = userDetails.createdAt;
+        document.getElementById("userUpdatedAt").innerHTML = userDetails.updatedAt;
+        
+        document.getElementById("user-fName").innerHTML = userDetails.fName;
+        document.getElementById("user-lName").innerHTML = userDetails.lName;
+        document.getElementById("user-userName").innerHTML = userDetails.userName;
+        document.getElementById("user-email").innerHTML = userDetails.email;
+        userDetailsTable.style.display = "block";
+        document.getElementsByClassName("signIn-box")[0].style.display = "none";
+    }
+   
+    
+}
 function handleSignIn(e){
     e.preventDefault();
-    const EmailOrUsername = document.getElementById("signInEmail").value;
-    const signInPassword = document.getElementById("signInPassword").value;
-    authenticate(EmailOrUsername, signInPassword);
-}
+    const email = document.getElementById("signInEmail").value;
+    const password = document.getElementById("signInPassword").value;
+    const cred = {
+        email,
+        password
+    }
+    $.ajax({
+        url: "http://localhost:5000/user/signIn",
+        type:"POST",
+        data : cred,
+        success: function(result){
+          displayDetails(result);
+        },
+        error: function(error){
+          console.log(error);
+        }
+      })
+      document.getElementById("signInEmail").value = "";
+      document.getElementById("signInPassword").value = "";
 
-function authenticate(EmailOrUsername, signInPassword){
-    if(hashMapEmail[EmailOrUsername]===signInPassword || hashMapUsername[EmailOrUsername]===signInPassword){
-        alert("verified");
-    }
-    else{
-        alert("Not verified");
-    }
 }
 
 //Update User
@@ -180,9 +229,6 @@ function updateUser(e){
     document.getElementById("updateEmail").value = "";
     document.getElementById("updateUsenname").value = "";
 }
-
-//Get all rows
-
 
 
 //Ajax Calls
@@ -229,7 +275,6 @@ function showData(e){
             console.log(error);
         }
     })
-    //console.log(rows);
 
 }
 
@@ -240,7 +285,16 @@ function data_insert(user){
       type:"POST",
       data : user,
       success: function(result){
-        console.log(result);
+        signupMsg.innerHTML = result;
+        signupMsg.style.display = "block";
+        if(result==="Signed up successfully"){
+            signupMsg.style.color = "#03C988";
+        }else{
+            signupMsg.style.color = "#F55050";
+        }
+        setTimeout(()=>{
+            signupMsg.style.display = "none";
+        } ,3000)
       },
       error: function(error){
         console.log(error);
