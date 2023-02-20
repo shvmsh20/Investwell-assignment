@@ -1,5 +1,6 @@
 const services = require("../services/userServices");
 const path = require("path");
+var CryptoJS = require("crypto-js");
 
 const showForm = (req, res)=>{
     res.sendFile(path.join(__dirname, "..", "public", "index.html"));
@@ -32,7 +33,13 @@ const signIn = async (req, res)=>{
     const cred = req.body;
     const temp = await services.signIn(cred);
     if(temp.length==0){
-        res.send("Invalid credential");
+        return res.send("Invalid credential");
+    }
+   
+    var bytes  = CryptoJS.AES.decrypt(temp[0].password, 'secret key 123');
+    var originalText = bytes.toString(CryptoJS.enc.Utf8);
+    if(originalText!==cred.password){
+        return res.send("Invalid credential");
     }else{
         res.send({
             userId: (temp[0].userId),
@@ -45,6 +52,7 @@ const signIn = async (req, res)=>{
 
         });
     }
+    
 }
 
 const insertData = async (req,res)=>{

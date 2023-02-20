@@ -53,6 +53,8 @@ document.getElementById("deleteUser").addEventListener("click", delUser);
 document.getElementById("updateBtn").addEventListener("click", updateUser);
 
 
+
+
 function User(fname, lname, username, email, password, confirmPassword){
     this.fname = fname;
     this.lname = lname;
@@ -74,7 +76,7 @@ function handleSubmit(event){
     //validations
     var letters = /^[A-Za-z]+$/;
 
-    if(fname.length===0){
+    if(fname.length===0 || fname.match(letters)===null){
         const field = document.getElementById("invalid-fname");
         field.innerHTML = "Invaid Data";
         setTimeout(()=>{
@@ -82,16 +84,8 @@ function handleSubmit(event){
         },2000);
         return false;
     }
-    if(lname.length===0){
+    if(lname.length===0 || lname.match(letters)===null){
         const field = document.getElementById("invalid-lname");
-        field.innerHTML = "Invaid Data";
-        setTimeout(()=>{
-            field.innerHTML = "";
-        },2000);
-        return false;
-    }
-    if(password.length<8){
-        const field = document.getElementById("invalid-password");
         field.innerHTML = "Invaid Data";
         setTimeout(()=>{
             field.innerHTML = "";
@@ -111,6 +105,15 @@ function handleSubmit(event){
     if(email.match(validRegexEmail)===null){
         const field = document.getElementById("invalid-email");
         field.innerHTML = "Invaid Data";
+        setTimeout(()=>{
+            field.innerHTML = "";
+        },2000);
+        return false;
+    }
+    var validPassword = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    if(password.match(validPassword)===null){
+        const field = document.getElementById("invalid-password");
+        field.innerHTML = "Password not strong";
         setTimeout(()=>{
             field.innerHTML = "";
         },2000);
@@ -246,6 +249,7 @@ function showData(e){
     document.getElementsByClassName("signIn-box")[0].style.display = "none";
     document.getElementsByClassName("signUp-box")[0].style.display = "none"; 
     document.getElementsByClassName("updateUser-box")[0].style.display = "none";
+    document.getElementsByClassName("signIn-Table")[0].style.display = "none";
 
     let rows = [];
 
@@ -256,7 +260,7 @@ function showData(e){
             rows = result;
             //console.log(rows);
             let str = rows.length>0 ?
-            `<tr class="header">
+            `<tr class="header" style="backg">
             <th>First Name</th>
             <th>Last Name</th>
             <th>Username</th>

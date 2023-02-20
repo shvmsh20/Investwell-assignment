@@ -1,11 +1,11 @@
 const Joi = require("joi");
 
 const signUpSchema = Joi.object({
-    fname: Joi.string().required(),
-    lname: Joi.string().required(),
-    email: Joi.string().email().required(),
-    username: Joi.string().required(),
-    password: Joi.string().required(),
+    fname: Joi.string().pattern(new RegExp(/^[A-Za-z]+$/)).required(),
+    lname: Joi.string().pattern(new RegExp(/^[A-Za-z]+$/)).required(),
+    email: Joi.string().email().pattern(new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)),
+    username: Joi.string().pattern(new RegExp("^[A-Za-z][A-Za-z0-9_]{7,29}$")).required(),
+    password: Joi.string().pattern(new RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)),
     confirmPassword: Joi.ref("password")
 })
 
@@ -23,7 +23,7 @@ const signUpValidate = (req, res, next)=>{
 }
 
 const signInSchema = Joi.object({
-    email: Joi.string().required(),
+    email: Joi.string().email().pattern(new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)),
     password: Joi.string().required()
 })
 
@@ -59,11 +59,11 @@ const deleteValidate = (req, res, next)=>{
 
 const updateSchema = Joi.object({
     updateUserID: Joi.number().required(),
-    updateFname: Joi.string().required(),
-    updateLname: Joi.string().required(),
-    updateUsername: Joi.string().required(),
-    updatePassword: Joi.string().required(),
-    updatEmail: Joi.string().required()
+    updateFname: Joi.string().pattern(new RegExp(/^[A-Za-z]+$/)).required(),
+    updateLname: Joi.string().pattern(new RegExp(/^[A-Za-z]+$/)).required(),
+    updateUsername: Joi.string().pattern(new RegExp("^[A-Za-z][A-Za-z0-9_]{7,29}$")).required(),
+    updatePassword: Joi.string().pattern(new RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)),
+    updatEmail: Joi.string().email().pattern(new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/))
 })
 
 const updateValidate = (req, res, next)=>{
@@ -71,7 +71,7 @@ const updateValidate = (req, res, next)=>{
     if(error){
         const {details} = error;
         const message = details.map(i => i.message).join(',');
-        console.log(error);
+        //console.log(error);
         return res.send(message);
     }else{
         next();

@@ -1,4 +1,5 @@
 const repo = require("../repository/userDb.js");
+var CryptoJS = require("crypto-js");
 
 //using callbacks
 // const getAllData = (cb)=>{
@@ -31,7 +32,7 @@ const getAllData = async ()=>{
 
 //SignIn
 const signIn = async (cred)=>{
-    const sqlQuery = `Select * from userDetails where email = "${cred.email}" AND password="${cred.password}"`;
+    const sqlQuery = `Select * from userDetails where email = "${cred.email}"`;
     const result = await repo.signIn(sqlQuery);
     return new Promise((resolve)=>{
         resolve(result);
@@ -42,9 +43,10 @@ const signIn = async (cred)=>{
 const insertData = async (newUser)=>{
     let success = null
     let fail = null;
+    var ciphertext = CryptoJS.AES.encrypt(newUser.password, 'secret key 123').toString();
     const sqlQuery = `INSERT INTO userDetails(fName, lName, userName, email, password)
             VALUES("${newUser.fname}", "${newUser.lname}", "${newUser.username}", "${newUser.email}",
-            "${newUser.password}")`;
+            "${ciphertext}")`;
         let result;    
         try{
             result = await repo.insertData(sqlQuery);
