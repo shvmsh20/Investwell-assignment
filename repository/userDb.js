@@ -69,30 +69,35 @@ const insertData = async (sqlQuery)=>{
     }) 
 }
 
-const deleteData = (sqlQuery)=>{
-    return connection.query(
-        sqlQuery,
-        (err, results)=>{
-            if(err){
-                console.log(err);
+const deleteData = async (sqlQuery)=>{
+    return new Promise((resolve, reject)=>{
+        connection.query(
+            sqlQuery,
+            (err, results)=>{
+                if(results.affectedRows===0){
+                    return resolve("Invalid UserID");
+                }
+                return resolve("Account Deleted Successfully");
             }
-            console.log("Row deleted...", results);
-        }
-    )
+        )
+    })
+    
 }
 
-const updateData = (sqlQuery)=>{
-    return connection.query(
-        sqlQuery,
-        (err, results)=>{
-            if (err) {
-                return console.log(err);
+const updateData = async (sqlQuery)=>{
+    return new Promise((resolve, reject)=>{
+        connection.query(
+            sqlQuery,
+            (err, results)=>{
+                if(results.affectedRows===0){
+                    return resolve("Invalid request");
+                }
+                return resolve("Account Updated Successfully");
+    
             }
-            
-            console.log("User Updated...", results);
-
-        }
-    )
+        )
+    })
+    
 }
 module.exports = {
     getAllData,

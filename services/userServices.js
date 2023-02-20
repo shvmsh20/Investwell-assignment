@@ -31,7 +31,7 @@ const getAllData = async ()=>{
 
 //SignIn
 const signIn = async (cred)=>{
-    const sqlQuery = `Select * from userDetails where email = "${cred.email}"`;
+    const sqlQuery = `Select * from userDetails where email = "${cred.email}" AND password="${cred.password}"`;
     const result = await repo.signIn(sqlQuery);
     return new Promise((resolve)=>{
         resolve(result);
@@ -58,17 +58,25 @@ const insertData = async (newUser)=>{
     
 }
 
-const deleteData = (id)=>{
+const deleteData = async (id)=>{
     const sqlQuery = `Delete from userDetails where userId = ${id}`;
-    return repo.deleteData(sqlQuery);
+    const result = await repo.deleteData(sqlQuery);
+    return new Promise((resolve, reject)=>{
+        resolve(result);
+    })
 }
 
-const updateData = (updateUser)=>{
+const updateData = async (updateUser)=>{
     const sqlQuery = `UPDATE userDetails SET 
     fName = "${updateUser.updateFname}", lName = "${updateUser.updateLname}", userName = "${updateUser.updateUsername}",
     email = "${updateUser.updatEmail}", password = "${updateUser.updatePassword}", updatedAt = now()
     where userId = ${updateUser.updateUserID}`;
-    return repo.updateData(sqlQuery);
+
+    const result = await repo.updateData(sqlQuery);
+
+    return new Promise((resolve, reject)=>{
+        resolve(result);
+    })
 }
 
 module.exports = {

@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Investwell Assignment 2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,8 +16,6 @@
     <div class="parent nav">
         <button class="btn" id="upBtn">Sign Up</button>
         <button class="btn" id="inBtn">Sign In</button>
-        <button class="btn" id="updateUserBtn">Update User</button>
-        <button class="btn" id="deleteUserBtn">Delete User</button>
         <button class="btn" id="getDataBtn">Get Data</button>
     </div>
     
@@ -30,27 +31,32 @@
     
                             <tr>
                                 <td>First Name</td>
-                                <td><input type="text" id="signUpFname" name="fName"><span class = "invalid" id="invalid-fname"></span></td>
+                                <td><input type="text" id="signUpFname" name="fName"><span class = "invalid" id="invalid-fname" required></span></td>
                             </tr>
 
                             <tr>
                                 <td>Last Name</td>
-                                <td><input type="text" id="signUpLname" name="lName"><span class = "invalid" id="invalid-lname"></span></td>
+                                <td><input type="text" id="signUpLname" name="lName"><span class = "invalid" id="invalid-lname" required></span></td>
                             </tr>
                             
                             <tr>
                                 <td>User Name</td>
-                                <td><input type="text" id="signUpUsenname" name="userName"><span class = "invalid" id="invalid-username"></span></td>
+                                <td><input type="text" id="signUpUsenname" name="userName"><span class = "invalid" id="invalid-username" required></span></td>
                             </tr>
     
                             <tr>
                                 <td>Email</td>
-                                <td><input type="email" id="signUpEmail" name="email"><span class = "invalid" id="invalid-email"></span></td>
+                                <td><input type="email" id="signUpEmail" name="email"><span class = "invalid" id="invalid-email" required></span></td>
                             </tr>
                 
                             <tr>
                                 <td>Password</td>
-                                <td><input type="password" id="signUpPassword" name="password"><span class = "invalid" id="invalid-password"></span></td>
+                                <td><input type="password" id="signUpPassword" name="password"><span class = "invalid" id="invalid-password" required></span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Confirm Password</td>
+                                <td><input type="password" id="signUpPasswordConfirm" name="confirmPassword"><span class = "invalid" id="invalid-confirmPassword" required></span></td>
                             </tr>
                          
                         </table>
@@ -69,12 +75,13 @@
 
         <!-- Delete User -->
         <div class="container deleteUser-box">
-            <h1 class="heading">Delete User</h1>
+            <h1 class="heading">Delete Account</h1>
             <form id = "deleteUserForm">
-                <input type="text" id = "deleteUserID" placeholder="UserID">
+                <input type="text" id = "deleteUserID" placeholder="Enter your UserID" >
                 <button type = "submit" id = "deleteUser" class="btn">Delete User</button>
             </form>
         </div>
+        <div id="deleteMsg"></div>
 
 
         <!-- Update User -->
@@ -120,9 +127,11 @@
             </form>
                 
         </div>
+        <div id="updateMsg"></div>
     
         <!-- output users -->
         <div class="container output-container">
+            <!-- <h1 class="userDetails">Users</h1> -->
             <table class="output"></table>
         </div>
         
@@ -140,8 +149,9 @@
 
         <!-- SignIn Table  -->
         <div class="container signIn-Table">
-            <h1 id="userDetails">User Details</h1>
+            <h1 class="userDetails">User Details</h1>
                 <table class="input">
+
                     <tr>
                         <td>UserID</td>
                         <td><span id="user-userID">UserID</span></td>
@@ -163,7 +173,7 @@
                     </tr>
 
                     <tr>
-                        <td>Email</td>
+                        <td>Email ID</td>
                         <td><span id="user-email"></span></td>
                     </tr>
         
@@ -175,8 +185,15 @@
                         <td>Account Updated At</td>
                         <td><span id="userUpdatedAt"></span></td>
                     </tr>
+                    <tr>
+                        <tr>
+                        <td>Account Updated At</td>
+                        <td><span id="userUpdatedAt"></span></td>
+                    </tr>
                         
                 </table>
+                <button class="btn" id="deleteUserBtn">Delete User</button>
+                <button class="btn" id="updateUserBtn">Update User</button>
         </div>
 
        

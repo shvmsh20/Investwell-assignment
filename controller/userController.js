@@ -1,5 +1,4 @@
 const services = require("../services/userServices");
-
 const path = require("path");
 
 const showForm = (req, res)=>{
@@ -7,7 +6,6 @@ const showForm = (req, res)=>{
 }
 
 const fetchAllRows = async (req, res)=>{
-    //validations
     
     //Using callbacks
     // services.getAllData(function(err, result){
@@ -34,8 +32,8 @@ const signIn = async (req, res)=>{
     const cred = req.body;
     const temp = await services.signIn(cred);
     if(temp.length==0){
-        res.send("No user found with this email id");
-    }else if(temp[0].password===cred.password){
+        res.send("Invalid credential");
+    }else{
         res.send({
             userId: (temp[0].userId),
             fName: temp[0].fName,
@@ -46,30 +44,27 @@ const signIn = async (req, res)=>{
             updatedAt: temp[0].createdAt
 
         });
-    }else{
-        res.send("Incorrect password")
     }
 }
 
 const insertData = async (req,res)=>{
     const newUser = req.body;
     
-    
     const result = await services.insertData(newUser);
         
-    
     res.send(result);
 }
 
-const deleteData = (req, res)=>{
+const deleteData = async (req, res)=>{
     const id = req.body.userID;
-    return services.deleteData(id);
-
+    const result = await services.deleteData(id);
+    res.send(result);
 }
 
-const updateData = (req, res)=>{
+const updateData = async (req, res)=>{
     const updateUserData = req.body;
-    return services.updateData(updateUserData);
+    const result = await services.updateData(updateUserData);
+    res.send(result);
 }
 
 module.exports = {

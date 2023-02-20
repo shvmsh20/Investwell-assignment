@@ -53,15 +53,13 @@ document.getElementById("deleteUser").addEventListener("click", delUser);
 document.getElementById("updateBtn").addEventListener("click", updateUser);
 
 
-
-let userId = 0;
-function User(fname, lname, username, email, password){
-    this.userId = userId;
+function User(fname, lname, username, email, password, confirmPassword){
     this.fname = fname;
     this.lname = lname;
     this.password = password;                         
     this.email = email;
     this.username = username;
+    this.confirmPassword = confirmPassword
 }
  
 function handleSubmit(event){
@@ -71,15 +69,11 @@ function handleSubmit(event){
     const password = document.getElementById("signUpPassword").value;
     const email = document.getElementById("signUpEmail").value;
     const username = document.getElementById("signUpUsenname").value;
+    const confirmPassword = document.getElementById("signUpPasswordConfirm").value
+
+    //validations
     var letters = /^[A-Za-z]+$/;
-    // if(fname.length===0 || fname.match(letters)===null){
-    //     const field = document.getElementById("invalid-fname");
-    //     field.innerHTML = "Invaid Data";
-    //     setTimeout(()=>{
-    //         field.innerHTML = "";
-    //     },2000);
-    //     return false;
-    // }
+
     if(fname.length===0){
         const field = document.getElementById("invalid-fname");
         field.innerHTML = "Invaid Data";
@@ -122,18 +116,25 @@ function handleSubmit(event){
         },2000);
         return false;
     }
-    
-    userId++;
+    if(password!=confirmPassword){
+        const field = document.getElementById("invalid-confirmPassword");
+        field.innerHTML = "Password not match";
+        setTimeout(()=>{
+            field.innerHTML = "";
+        },2000);
+        return false;
+    }
+
 
     //user Object
-    const user = new User(fname, lname, username, email, password);
-
-    handleReset();
+    const user = new User(fname, lname, username, email, password, confirmPassword);
 
     //Insert in DB
     data_insert(user);
-}
 
+    //reset
+    handleReset();
+}
 //handle reset
 function handleReset(event){
     document.getElementById("signUpFname").value = "";
@@ -141,6 +142,7 @@ function handleReset(event){
     document.getElementById("signUpPassword").value = "";
     document.getElementById("signUpEmail").value = "";
     document.getElementById("signUpUsenname").value = "";
+    document.getElementById("signUpPasswordConfirm").value = "";
 
 }
 
@@ -156,15 +158,12 @@ function displayDetails(userDetails){
         signInErr.style.display = "block";
         setTimeout(()=>{
             signInErr.style.display = "none";
-        } ,3000)
+        } ,2000)
     }else{
         //Valid user
-        console.log(userDetails);
         document.getElementById("user-userID").innerHTML = userDetails.userId;
-
         document.getElementById("userCreatedAt").innerHTML = userDetails.createdAt;
         document.getElementById("userUpdatedAt").innerHTML = userDetails.updatedAt;
-        
         document.getElementById("user-fName").innerHTML = userDetails.fName;
         document.getElementById("user-lName").innerHTML = userDetails.lName;
         document.getElementById("user-userName").innerHTML = userDetails.userName;
@@ -183,12 +182,14 @@ function handleSignIn(e){
         email,
         password
     }
+    let userData;
     $.ajax({
         url: "http://localhost:5000/user/signIn",
         type:"POST",
         data : cred,
         success: function(result){
           displayDetails(result);
+          userData = result;
         },
         error: function(error){
           console.log(error);
@@ -196,6 +197,9 @@ function handleSignIn(e){
       })
       document.getElementById("signInEmail").value = "";
       document.getElementById("signInPassword").value = "";
+    
+      //Update user
+      
 
 }
 
@@ -253,7 +257,6 @@ function showData(e){
             //console.log(rows);
             let str = rows.length>0 ?
             `<tr class="header">
-            <th>UserId</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Username</th>
@@ -261,7 +264,6 @@ function showData(e){
             </tr>`: "No Data In Database";
             rows.forEach((user)=>{
                 str+= `<tr >
-                <td>${user.userId}</td>
                 <td>${user.fName}</td>
                 <td>${user.lName}</td>
                 <td>${user.userName}</td>
@@ -294,7 +296,7 @@ function data_insert(user){
         }
         setTimeout(()=>{
             signupMsg.style.display = "none";
-        } ,3000)
+        } ,2000)
       },
       error: function(error){
         console.log(error);
@@ -314,12 +316,21 @@ function delUser(e){
         type: "POST",
         data: obj,
         success: function(result){
-            console.log(result);
-            
+            deleteMsg.innerHTML = result;
+            deleteMsg.style.display = "block";
+            if(result==="Account Deleted Successfully"){
+                deleteMsg.style.color = "#03C988";
+            }else{
+                deleteMsg.style.color = "#F55050";
+            }
+            setTimeout(()=>{
+                deleteMsg.style.display = "none";
+            } ,2000)
         },
         error: function(error){
             console.log(error);
-        }
+        },
+        
     })
     document.getElementById("deleteUserID").value = "";
     
@@ -332,8 +343,16 @@ function update_user(updateUserObj){
         type: "POST",
         data: updateUserObj,
         success: function(result){
-            console.log(result);
-            
+            updateMsg.innerHTML = result;
+            updateMsg.style.display = "block";
+            if(result==="Account Updated Successfully"){
+                updateMsg.style.color = "#03C988";
+            }else{
+                updateMsg.style.color = "#F55050";
+            }
+            setTimeout(()=>{
+                updateMsg.style.display = "none";
+            } ,2000)
         },
         error: function(error){
             console.log(error);
