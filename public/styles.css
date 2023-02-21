@@ -3,18 +3,18 @@
     padding: 0;
     box-sizing: border-box;
     font-size: 18px;
-    background-color: #DDD;
     font-weight: 500;
     color: black;
     font-family: 'Roboto', sans-serif;
-    /* background-image: url("background.jpg");
+    color: white;
+   
+}
+body{
+    background-image: url("background.jpg");
     background-repeat: no-repeat;
-    background-size: cover; */
+    background-size: cover;
 }
 
-.nav{
-    background-color: #181D31;
-}
 
 .parent{
     width: 100%; 
@@ -25,6 +25,7 @@
     text-align: center;
     font-size: 25px;
     margin: 20px;
+    color: white;
 }
 
 .container{
@@ -32,7 +33,6 @@
     margin: 50px auto;
     padding: 5px;
     width: 50%;
-    /* box-shadow: 5px 10px 10px #5B8FB9; */
 }
 .input{
     width: 100%;
@@ -56,7 +56,7 @@
 }
 
 input{
-    background-color: #DDDDDD;
+    /* background-color: #DDDDDD; */
     border: 2px solid black;
     font-weight:100;
     padding: 2px;
@@ -84,7 +84,7 @@ input{
     color: #404258;
 }
 .header th{
-    background-color: white;
+    /* background-color: white; */
 }
 
 /* SignIn Form */

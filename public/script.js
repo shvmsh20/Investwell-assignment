@@ -1,11 +1,14 @@
+//Initailly show signUp Form
 document.getElementsByClassName("signIn-box")[0].style.display = "none";
 document.getElementsByClassName("deleteUser-box")[0].style.display = "none";
 document.getElementsByClassName("updateUser-box")[0].style.display = "none";
 document.getElementsByClassName("output-container")[0].style.display = "none";
 document.getElementsByClassName("signIn-Table")[0].style.display = "none";
 
-//Choose signUp
 
+//NavBar 
+
+//Choose signUp
 document.getElementById("upBtn").addEventListener('click', ()=>{
     document.getElementsByClassName("signUp-box")[0].style.display = "block";
     document.getElementsByClassName("signIn-box")[0].style.display = "none";
@@ -58,6 +61,7 @@ document.getElementById("updateUserBtn").addEventListener('click', ()=>{
 
 })
 
+
 //Adding event listeners
 document.getElementById("signUpBtn").addEventListener("click", handleSubmit);
 document.getElementById("resetBtn").addEventListener("click", handleReset);
@@ -65,7 +69,53 @@ document.getElementById("signIn").addEventListener('click', handleSignIn);
 document.getElementById("getDataBtn").addEventListener("click", showData);
 document.getElementById("deleteUser").addEventListener("click", delUser);
 document.getElementById("updateBtn").addEventListener("click", updateUser);
+document.getElementById("resetBtn-updateUser").addEventListener("click", resetUpdateForm);
 
+//Get All data
+function showData(e){
+    e.preventDefault();
+    document.getElementsByClassName("output-container")[0].style.display = "block";
+    document.getElementsByClassName("deleteUser-box")[0].style.display = "none";
+    document.getElementsByClassName("signIn-box")[0].style.display = "none";
+    document.getElementsByClassName("signUp-box")[0].style.display = "none"; 
+    document.getElementsByClassName("updateUser-box")[0].style.display = "none";
+    document.getElementsByClassName("signIn-Table")[0].style.display = "none";
+
+    let rows = [];
+
+    $.ajax({
+        url: "http://localhost:5000/users",
+        type: "GET",
+        success: function(result){
+            rows = result;
+            //console.log(rows);
+            let str = rows.length>0 ?
+            `<tr class="header">
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            </tr>`: "No Data In Database";
+            rows.forEach((user)=>{
+                str+= `<tr >
+                <td>${user.fName}</td>
+                <td>${user.lName}</td>
+                <td>${user.userName}</td>
+                <td>${user.email}</td>
+                </tr>`;
+            })
+            const output = document.getElementsByClassName("output")[0];
+            output.innerHTML = str;
+        },
+        error: function(error){
+            console.log(error);
+        }
+    })
+
+}
+
+
+//SignUp
 
 //Constructor
 function User(fname, lname, username, email, password, confirmPassword){
@@ -159,11 +209,34 @@ function handleReset(event){
     document.getElementById("signUpEmail").value = "";
     document.getElementById("signUpUsenname").value = "";
     document.getElementById("signUpPasswordConfirm").value = "";
-
+}
+//Insert Data
+function data_insert(user){
+    $.ajax({
+      url: "http://localhost:5000/user/create",
+      type:"POST",
+      data : user,
+      success: function(result){
+        signupMsg.innerHTML = result;
+        signupMsg.style.display = "block";
+        if(result==="Signed up successfully"){
+            signupMsg.style.color = "#03C988";
+        }else{
+            signupMsg.style.color = "#F55050";
+        }
+        setTimeout(()=>{
+            signupMsg.style.display = "none";
+        } ,2000)
+      },
+      error: function(error){
+        console.log(error);
+      }
+    })
 }
 
 
-///Sign - In
+
+//Sign - In
 let currUser;
 function displayDetails(userDetails){
     const userDetailsTable = document.getElementsByClassName("signIn-Table")[0];
@@ -214,10 +287,20 @@ function handleSignIn(e){
       })
       document.getElementById("signInEmail").value = "";
       document.getElementById("signInPassword").value = "";
-    
 }
 
+
+
 //Update User
+function resetUpdateForm(e){
+    e.preventDefault();
+    document.getElementById("updateFname").value = "";
+    document.getElementById("updateLname").value = "";
+    document.getElementById("updatePassword").value = "";
+    document.getElementById("updateEmail").value = "";
+    document.getElementById("updateUsenname").value = "";
+}
+
 function updateUser(e){
     e.preventDefault();
     const  updateUserID = document.getElementById("updateUserID").value;
@@ -235,89 +318,36 @@ function updateUser(e){
         updatEmail
     }
     
-
     //ajax call
     update_user(updateUserObj)
-
-    //Reset Values
-    document.getElementById("updateUserID").value = "";
-    document.getElementById("updateFname").value = "";
-    document.getElementById("updateLname").value = "";
-    document.getElementById("updatePassword").value = "";
-    document.getElementById("updateEmail").value = "";
-    document.getElementById("updateUsenname").value = "";
 }
 
-
-//Ajax Calls
-
-//Get data 
-function showData(e){
-    e.preventDefault();
-
-    document.getElementsByClassName("output-container")[0].style.display = "block";
-    document.getElementsByClassName("deleteUser-box")[0].style.display = "none";
-    document.getElementsByClassName("signIn-box")[0].style.display = "none";
-    document.getElementsByClassName("signUp-box")[0].style.display = "none"; 
-    document.getElementsByClassName("updateUser-box")[0].style.display = "none";
-    document.getElementsByClassName("signIn-Table")[0].style.display = "none";
-
-    let rows = [];
-
+function update_user(updateUserObj){
     $.ajax({
-        url: "http://localhost:5000/users",
-        type: "GET",
+        url: "http://localhost:5000/user/update",
+        type: "POST",
+        data: updateUserObj,
         success: function(result){
-            rows = result;
-            //console.log(rows);
-            let str = rows.length>0 ?
-            `<tr class="header">
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
-            <th>Email</th>
-            </tr>`: "No Data In Database";
-            rows.forEach((user)=>{
-                str+= `<tr >
-                <td>${user.fName}</td>
-                <td>${user.lName}</td>
-                <td>${user.userName}</td>
-                <td>${user.email}</td>
-                </tr>`;
-            })
-            const output = document.getElementsByClassName("output")[0];
-            output.innerHTML = str;
+            updateMsg.innerHTML = result;
+            updateMsg.style.display = "block";
+            if(result==="Account Updated Successfully"){
+                updateMsg.style.color = "#03C988";
+            }else{
+                updateMsg.style.color = "#F55050";
+                displayUpdate();
+            }
+            setTimeout(()=>{
+                updateMsg.style.display = "none";
+            } ,2000);
+            
         },
         error: function(error){
             console.log(error);
         }
     })
-
+    
 }
 
-//Insert Data
-function data_insert(user){
-    $.ajax({
-      url: "http://localhost:5000/user/create",
-      type:"POST",
-      data : user,
-      success: function(result){
-        signupMsg.innerHTML = result;
-        signupMsg.style.display = "block";
-        if(result==="Signed up successfully"){
-            signupMsg.style.color = "#03C988";
-        }else{
-            signupMsg.style.color = "#F55050";
-        }
-        setTimeout(()=>{
-            signupMsg.style.display = "none";
-        } ,2000)
-      },
-      error: function(error){
-        console.log(error);
-      }
-    })
-}
 
 //DeleteUser
 function delUser(e){
@@ -352,30 +382,3 @@ function delUser(e){
     
 }
 
-//Update User
-function update_user(updateUserObj){
-    $.ajax({
-        url: "http://localhost:5000/user/update",
-        type: "POST",
-        data: updateUserObj,
-        success: function(result){
-            updateMsg.innerHTML = result;
-            updateMsg.style.display = "block";
-            if(result==="Account Updated Successfully"){
-                updateMsg.style.color = "#03C988";
-                displaySignIn();
-            }else{
-                updateMsg.style.color = "#F55050";
-                displayUpdate();
-            }
-            setTimeout(()=>{
-                updateMsg.style.display = "none";
-            } ,2000);
-            
-        },
-        error: function(error){
-            console.log(error);
-        }
-    })
-    
-}
