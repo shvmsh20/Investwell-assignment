@@ -5,6 +5,7 @@ document.getElementsByClassName("output-container")[0].style.display = "none";
 document.getElementsByClassName("signIn-Table")[0].style.display = "none";
 
 //Choose signUp
+
 document.getElementById("upBtn").addEventListener('click', ()=>{
     document.getElementsByClassName("signUp-box")[0].style.display = "block";
     document.getElementsByClassName("signIn-box")[0].style.display = "none";
@@ -15,13 +16,16 @@ document.getElementById("upBtn").addEventListener('click', ()=>{
 })
 
 //Choose signIn
-document.getElementById("inBtn").addEventListener('click', ()=>{
+const displaySignIn = ()=>{
     document.getElementsByClassName("signIn-box")[0].style.display = "block";
     document.getElementsByClassName("signUp-box")[0].style.display = "none"; 
     document.getElementsByClassName("deleteUser-box")[0].style.display = "none";
     document.getElementsByClassName("updateUser-box")[0].style.display = "none";
     document.getElementsByClassName("output-container")[0].style.display = "none";
     document.getElementsByClassName("signIn-Table")[0].style.display = "none";
+}
+document.getElementById("inBtn").addEventListener('click', ()=>{
+    displaySignIn();
 })
 
 ///Choose deleteUser Btn
@@ -32,16 +36,26 @@ document.getElementById("deleteUserBtn").addEventListener('click', ()=>{
     document.getElementsByClassName("updateUser-box")[0].style.display = "none";
     document.getElementsByClassName("output-container")[0].style.display = "none";
     document.getElementsByClassName("signIn-Table")[0].style.display = "none";
+    document.getElementById("deleteUserID").value = currUser.userId;
 })
 
 //Choose updateUser Btn
-document.getElementById("updateUserBtn").addEventListener('click', ()=>{
+const displayUpdate = ()=>{
     document.getElementsByClassName("updateUser-box")[0].style.display = "block";
     document.getElementsByClassName("signIn-box")[0].style.display = "none";
     document.getElementsByClassName("signUp-box")[0].style.display = "none"; 
     document.getElementsByClassName("deleteUser-box")[0].style.display = "none";
     document.getElementsByClassName("output-container")[0].style.display = "none";
     document.getElementsByClassName("signIn-Table")[0].style.display = "none";
+    document.getElementById("updateUserID").value = currUser.userId;
+    document.getElementById("updateFname").value = currUser.fName;
+    document.getElementById("updateLname").value = currUser.lName;
+    document.getElementById("updateEmail").value = currUser.email;
+    document.getElementById("updateUsenname").value = currUser.userName;
+}
+document.getElementById("updateUserBtn").addEventListener('click', ()=>{
+    displayUpdate();
+
 })
 
 //Adding event listeners
@@ -53,8 +67,7 @@ document.getElementById("deleteUser").addEventListener("click", delUser);
 document.getElementById("updateBtn").addEventListener("click", updateUser);
 
 
-
-
+//Constructor
 function User(fname, lname, username, email, password, confirmPassword){
     this.fname = fname;
     this.lname = lname;
@@ -151,7 +164,7 @@ function handleReset(event){
 
 
 ///Sign - In
-
+let currUser;
 function displayDetails(userDetails){
     const userDetailsTable = document.getElementsByClassName("signIn-Table")[0];
     const signInErr = document.getElementById("signInErr");
@@ -164,6 +177,7 @@ function displayDetails(userDetails){
         } ,2000)
     }else{
         //Valid user
+        currUserID = userDetails.userId;
         document.getElementById("user-userID").innerHTML = userDetails.userId;
         document.getElementById("userCreatedAt").innerHTML = userDetails.createdAt;
         document.getElementById("userUpdatedAt").innerHTML = userDetails.updatedAt;
@@ -174,9 +188,10 @@ function displayDetails(userDetails){
         userDetailsTable.style.display = "block";
         document.getElementsByClassName("signIn-box")[0].style.display = "none";
     }
-   
     
 }
+
+
 function handleSignIn(e){
     e.preventDefault();
     const email = document.getElementById("signInEmail").value;
@@ -185,14 +200,13 @@ function handleSignIn(e){
         email,
         password
     }
-    let userData;
     $.ajax({
         url: "http://localhost:5000/user/signIn",
         type:"POST",
         data : cred,
         success: function(result){
+          currUser = result;
           displayDetails(result);
-          userData = result;
         },
         error: function(error){
           console.log(error);
@@ -201,15 +215,12 @@ function handleSignIn(e){
       document.getElementById("signInEmail").value = "";
       document.getElementById("signInPassword").value = "";
     
-      //Update user
-      
-
 }
 
 //Update User
 function updateUser(e){
     e.preventDefault();
-    const updateUserID = document.getElementById("updateUserID").value;
+    const  updateUserID = document.getElementById("updateUserID").value;
     const updateFname = document.getElementById("updateFname").value;
     const updateLname = document.getElementById("updateLname").value;
     const updatePassword = document.getElementById("updatePassword").value;
@@ -260,7 +271,7 @@ function showData(e){
             rows = result;
             //console.log(rows);
             let str = rows.length>0 ?
-            `<tr class="header" style="backg">
+            `<tr class="header">
             <th>First Name</th>
             <th>Last Name</th>
             <th>Username</th>
@@ -337,6 +348,7 @@ function delUser(e){
         
     })
     document.getElementById("deleteUserID").value = "";
+    displaySignIn();
     
 }
 
@@ -351,15 +363,19 @@ function update_user(updateUserObj){
             updateMsg.style.display = "block";
             if(result==="Account Updated Successfully"){
                 updateMsg.style.color = "#03C988";
+                displaySignIn();
             }else{
                 updateMsg.style.color = "#F55050";
+                displayUpdate();
             }
             setTimeout(()=>{
                 updateMsg.style.display = "none";
-            } ,2000)
+            } ,2000);
+            
         },
         error: function(error){
             console.log(error);
         }
     })
+    
 }

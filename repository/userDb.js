@@ -75,7 +75,7 @@ const deleteData = async (sqlQuery)=>{
             sqlQuery,
             (err, results)=>{
                 if(results.affectedRows===0){
-                    return resolve("Invalid UserID");
+                    return resolve("Invalid request");
                 }
                 return resolve("Account Deleted Successfully");
             }

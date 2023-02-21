@@ -43,7 +43,8 @@ const signIn = async (cred)=>{
 const insertData = async (newUser)=>{
     let success = null
     let fail = null;
-    var ciphertext = CryptoJS.AES.encrypt(newUser.password, 'secret key 123').toString();
+    //Encryption
+    const ciphertext = CryptoJS.AES.encrypt(newUser.password, 'secret key 123').toString();
     const sqlQuery = `INSERT INTO userDetails(fName, lName, userName, email, password)
             VALUES("${newUser.fname}", "${newUser.lname}", "${newUser.username}", "${newUser.email}",
             "${ciphertext}")`;
@@ -69,9 +70,10 @@ const deleteData = async (id)=>{
 }
 
 const updateData = async (updateUser)=>{
+    const ciphertext = CryptoJS.AES.encrypt(updateUser.updatePassword, 'secret key 123').toString();
     const sqlQuery = `UPDATE userDetails SET 
     fName = "${updateUser.updateFname}", lName = "${updateUser.updateLname}", userName = "${updateUser.updateUsername}",
-    email = "${updateUser.updatEmail}", password = "${updateUser.updatePassword}", updatedAt = now()
+    email = "${updateUser.updatEmail}", password = "${ciphertext}", updatedAt = now()
     where userId = ${updateUser.updateUserID}`;
 
     const result = await repo.updateData(sqlQuery);

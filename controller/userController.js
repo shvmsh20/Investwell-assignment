@@ -35,7 +35,7 @@ const signIn = async (req, res)=>{
     if(temp.length==0){
         return res.send("Invalid credential");
     }
-   
+    // Decryption
     var bytes  = CryptoJS.AES.decrypt(temp[0].password, 'secret key 123');
     var originalText = bytes.toString(CryptoJS.enc.Utf8);
     if(originalText!==cred.password){
@@ -49,7 +49,6 @@ const signIn = async (req, res)=>{
             email: temp[0].email,
             createdAt: temp[0].createdAt,
             updatedAt: temp[0].createdAt
-
         });
     }
     
@@ -57,9 +56,7 @@ const signIn = async (req, res)=>{
 
 const insertData = async (req,res)=>{
     const newUser = req.body;
-    
-    const result = await services.insertData(newUser);
-        
+    const result = await services.insertData(newUser);   
     res.send(result);
 }
 
